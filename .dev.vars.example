@@ -1,0 +1,15 @@
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+META_CLIENT_ID=your-meta-client-id
+META_CLIENT_SECRET=your-meta-client-secret
+STRAVA_CLIENT_ID=your-strava-client-id
+STRAVA_CLIENT_SECRET=your-strava-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Set a provider's *_ENABLED value to false to hide it without removing its credentials.
+# Providers default to enabled in src/config/providers.ts.
+# GOOGLE_ENABLED=true
+# META_ENABLED=true
+# STRAVA_ENABLED=true
+# GITHUB_ENABLED=true
