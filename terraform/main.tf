@@ -36,7 +36,7 @@ resource "cloudflare_worker_version" "my_worker_version" {
   modules = [
     {
       name         = "index.js"
-      content_type = "application/javascript"
+      content_type = "application/javascript+module"
       content_file = "${path.module}/../app/dist/index.js"
     }
   ]
