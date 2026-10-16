@@ -27,6 +27,10 @@ go.work.sum
 
 # env file
 .env
+.dev.vars
+node_modules/
+.wrangler/
+dist/
 
 # Editor/IDE
 # .idea/

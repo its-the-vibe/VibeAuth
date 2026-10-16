@@ -1,0 +1,24 @@
+{
+  "name": "vibeauth",
+  "version": "1.0.0",
+  "description": "A lightweight, modular OAuth 2.0 gateway running on Cloudflare Workers that delegates authentication to social identity providers.",
+  "main": "src/index.ts",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "arctic": "^3.7.0",
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261016.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.151.1"
+  }
+}
