@@ -11,6 +11,6 @@ cp .dev.vars.example .dev.vars
 npm run dev
 ```
 
-The login page shows a provider only when its client ID and secret are set. Providers can also be hidden by setting the corresponding `*_ENABLED=false` in `.dev.vars`. To disable a provider by default, set its `enabled` property to `false` in `src/config/providers.ts`.
+The login page shows a provider only when its client ID and secret are set. Providers can also be hidden by setting the corresponding `*_ENABLED=false` in `.dev.vars`. To disable a provider by default, set its `enabled` property to `false` in `src/config/providers.ts`. Strava sign-in uses `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`, and `SESSION_SECRET`; the callback creates a seven-day signed session cookie and redirects to the protected dashboard.
 
-The Phase 1 login and callback routes are placeholders; they do not perform OAuth token exchanges yet. Run `npm run check` to type-check the Worker. Deploy with `npm run deploy`.
+The Strava OAuth routes are implemented without persistent storage. Run `npm run check` to type-check the Worker. Deploy with `npm run deploy`.

@@ -4,6 +4,7 @@ META_CLIENT_ID=your-meta-client-id
 META_CLIENT_SECRET=your-meta-client-secret
 STRAVA_CLIENT_ID=your-strava-client-id
 STRAVA_CLIENT_SECRET=your-strava-client-secret
+SESSION_SECRET=replace-with-a-long-random-secret
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
 

@@ -5,8 +5,11 @@ import {
   providerRegistry,
   type ProviderEnvironment,
 } from "./config/providers";
+import strava from "./routes/strava";
 
 const app = new Hono<{ Bindings: ProviderEnvironment }>();
+
+app.route("/", strava);
 
 app.get("/", (c) => {
   const providers = getEnabledProviders(c.env);
