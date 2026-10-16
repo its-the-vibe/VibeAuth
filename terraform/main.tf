@@ -19,4 +19,6 @@ resource "cloudflare_workers_script" "my_worker" {
   account_id         = var.cloudflare_account_id
   content            = file("${path.module}/../app/dist/index.js")
   compatibility_date = "2026-10-16"
+
+  main_module = "index.js"
 }
