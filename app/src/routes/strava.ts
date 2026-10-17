@@ -160,8 +160,14 @@ strava.get("/dashboard", async (c) => {
     return c.redirect("/login", 302);
   }
 
-  const name = [athlete.firstname, athlete.lastname].filter(Boolean).join(" ") || "Strava athlete";
-  const location = [athlete.city, athlete.state, athlete.country].filter(Boolean).join(", ");
+  const isGoogleProfile = "provider" in athlete;
+  const name = isGoogleProfile
+    ? athlete.name || athlete.email || "Google user"
+    : [athlete.firstname, athlete.lastname].filter(Boolean).join(" ") || "Strava athlete";
+  const image = isGoogleProfile ? athlete.image : athlete.profile;
+  const location = isGoogleProfile
+    ? athlete.email
+    : [athlete.city, athlete.state, athlete.country].filter(Boolean).join(", ");
   return c.html(html`<!doctype html>
     <html lang="en">
       <head>
@@ -173,11 +179,11 @@ strava.get("/dashboard", async (c) => {
       <body class="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12 text-slate-900">
         <main class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
           <div class="text-center">
-            ${athlete.profile
-              ? html`<img src="${athlete.profile}" alt="" class="mx-auto mb-4 h-24 w-24 rounded-full object-cover" />`
+            ${image
+              ? html`<img src="${image}" alt="" class="mx-auto mb-4 h-24 w-24 rounded-full object-cover" />`
               : ""}
             <h1 class="text-2xl font-semibold">${name}</h1>
-            <p class="mt-2 text-sm text-slate-600">Strava ID: ${athlete.id}</p>
+            <p class="mt-2 text-sm text-slate-600">${isGoogleProfile ? "Google ID" : "Strava ID"}: ${athlete.id}</p>
             ${location ? html`<p class="mt-1 text-sm text-slate-600">${location}</p>` : ""}
           </div>
           <form action="/logout" method="post" class="mt-8">
