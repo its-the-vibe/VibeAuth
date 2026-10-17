@@ -8,9 +8,19 @@ export interface AthleteProfile {
   country: string | null;
 }
 
-interface SessionPayload extends AthleteProfile {
-  exp: number;
+export interface GoogleProfile {
+  provider: "google";
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
 }
+
+export type SessionProfile = AthleteProfile | GoogleProfile;
+
+type SessionPayload = SessionProfile & {
+  exp: number;
+};
 
 const encoder = new TextEncoder();
 
@@ -40,12 +50,12 @@ async function importSecret(secret: string): Promise<CryptoKey> {
 }
 
 export async function createSessionToken(
-  athlete: AthleteProfile,
+  profile: SessionProfile,
   secret: string,
 ): Promise<string> {
   const header = encodeBase64Url(encoder.encode(JSON.stringify({ alg: "HS256", typ: "JWT" })));
   const payload: SessionPayload = {
-    ...athlete,
+    ...profile,
     exp: Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60,
   };
   const encodedPayload = encodeBase64Url(encoder.encode(JSON.stringify(payload)));
@@ -59,24 +69,31 @@ export async function createSessionToken(
   return `${signingInput}.${encodeBase64Url(new Uint8Array(signature))}`;
 }
 
-function isAthleteProfile(value: unknown): value is AthleteProfile {
+function isSessionProfile(value: unknown): value is SessionProfile {
   if (typeof value !== "object" || value === null) {
     return false;
   }
 
   const profile = value as Record<string, unknown>;
-  return (
+  const isAthlete =
     Number.isSafeInteger(profile.id) &&
     ["firstname", "lastname", "profile", "city", "state", "country"].every(
       (key) => profile[key] === null || typeof profile[key] === "string",
-    )
-  );
+    );
+  const isGoogle =
+    profile.provider === "google" &&
+    typeof profile.id === "string" &&
+    ["name", "email", "image"].every(
+      (key) => profile[key] === null || typeof profile[key] === "string",
+    );
+
+  return isAthlete || isGoogle;
 }
 
 export async function verifySessionToken(
   token: string,
   secret: string,
-): Promise<AthleteProfile | null> {
+): Promise<SessionProfile | null> {
   const parts = token.split(".");
   if (parts.length !== 3 || !secret) {
     return null;
@@ -107,7 +124,7 @@ export async function verifySessionToken(
       new TextDecoder().decode(decodeBase64Url(encodedPayload)),
     );
     if (
-      !isAthleteProfile(payload) ||
+      !isSessionProfile(payload) ||
       typeof (payload as SessionPayload).exp !== "number" ||
       (payload as SessionPayload).exp <= Math.floor(Date.now() / 1000)
     ) {
