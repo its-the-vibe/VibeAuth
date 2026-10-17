@@ -40,6 +40,74 @@ resource "cloudflare_worker_version" "my_worker_version" {
       content_file = "${path.module}/../app/dist/index.js"
     }
   ]
+
+  bindings = [
+    {
+      name = "GOOGLE_CLIENT_ID"
+      type = "plain_text"
+      text = var.google_client_id
+    },
+    {
+      name = "GOOGLE_CLIENT_SECRET"
+      type = "secret_text"
+      text = var.google_client_secret
+    },
+    {
+      name = "GOOGLE_ENABLED"
+      type = "plain_text"
+      text = tostring(var.google_enabled)
+    },
+    {
+      name = "META_CLIENT_ID"
+      type = "plain_text"
+      text = var.meta_client_id
+    },
+    {
+      name = "META_CLIENT_SECRET"
+      type = "secret_text"
+      text = var.meta_client_secret
+    },
+    {
+      name = "META_ENABLED"
+      type = "plain_text"
+      text = tostring(var.meta_enabled)
+    },
+    {
+      name = "GITHUB_CLIENT_ID"
+      type = "plain_text"
+      text = var.github_client_id
+    },
+    {
+      name = "GITHUB_CLIENT_SECRET"
+      type = "secret_text"
+      text = var.github_client_secret
+    },
+    {
+      name = "GITHUB_ENABLED"
+      type = "plain_text"
+      text = tostring(var.github_enabled)
+    },
+    {
+      name = "STRAVA_CLIENT_ID"
+      type = "plain_text"
+      text = var.strava_client_id
+    },
+    {
+      name = "STRAVA_CLIENT_SECRET"
+      type = "secret_text"
+      text = var.strava_client_secret
+    },
+    {
+      name = "STRAVA_ENABLED"
+      type = "plain_text"
+      text = tostring(var.strava_enabled)
+    },
+    {
+      name = "SESSION_SECRET"
+      type = "secret_text"
+      text = var.session_secret
+    },
+  ]
 }
 
 resource "cloudflare_workers_deployment" "my_worker_deployment" {
