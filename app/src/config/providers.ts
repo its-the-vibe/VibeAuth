@@ -2,6 +2,10 @@ export interface OAuthProviderConfig {
   id: string;
   name: string;
   enabled: boolean;
+  authorizationEndpoint?: string;
+  tokenEndpoint?: string;
+  userInfoEndpoint?: string;
+  defaultScopes?: string[];
   iconSvg?: string;
   colorClass?: string;
   buttonLabel?: string;
@@ -17,6 +21,7 @@ export interface ProviderEnvironment {
   STRAVA_CLIENT_ID?: string;
   STRAVA_CLIENT_SECRET?: string;
   STRAVA_ENABLED?: string;
+  SESSION_SECRET?: string;
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
   GITHUB_ENABLED?: string;
@@ -44,7 +49,11 @@ export const providerRegistry: readonly OAuthProviderConfig[] = [
     id: "strava",
     name: "Strava",
     enabled: true,
-    colorClass: "bg-[#fc4c02] text-white hover:bg-[#e64402]",
+    authorizationEndpoint: "https://www.strava.com/oauth/authorize",
+    tokenEndpoint: "https://www.strava.com/oauth/token",
+    userInfoEndpoint: "https://www.strava.com/api/v3/athlete",
+    defaultScopes: ["read,activity:read"],
+    colorClass: "bg-[#FC4C02] hover:bg-[#E34402] text-white",
     iconSvg:
       '<svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5 fill-current"><path d="m15.39 2.01-4.08 7.98h2.99l4.08-7.98zM7.93 9.99 0 24h5.98l4.08-7.98h-2.99l2.99-6.03z"/><path d="m15.39 2.01-4.08 7.98h2.99l4.08-7.98zM14.3 9.99 21.05 24H15.1l-4.09-7.98h2.99l-2.99-6.03z"/></svg>',
   },
